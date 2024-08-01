@@ -7,6 +7,8 @@ def sqrt(number: int) -> int:
     Returns:
        int: Floored Square Root
 
+    It uses a an integer version of the Newton-Raphson algorithm
+
     Time complexity:
         O(log n) as we halve teh number of iterations each
         time we go through the while loop
