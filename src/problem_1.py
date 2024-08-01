@@ -7,6 +7,8 @@ def sqrt(number: int) -> int:
     Returns:
        int: Floored Square Root
     """
+    if number < 0:
+        raise ValueError("Cannot compute square root of negative number")
     if number == 0 or number == 1:
         return number
 
