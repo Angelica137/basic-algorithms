@@ -13,3 +13,11 @@ def test_sqrt_1_is_1():
 def test_sqrt_negative_returns_error():
     with pytest.raises(ValueError, match="Cannot compute square root of negative number"):
         sqrt(-1)
+
+
+def test_sqrt_9_is_3():
+    assert sqrt(9) == 3
+
+
+def test_sqrt_27_is_5():
+    assert sqrt(27) == 5
