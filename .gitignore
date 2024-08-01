@@ -1,0 +1,28 @@
+# Virtual environment
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+
+# pytest
+.cache/
+*.cover
+coverage.xml
+*.coveragerc
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+
+
+# VS Code
+.vscode/
+
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
