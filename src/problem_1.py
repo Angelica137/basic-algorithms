@@ -6,6 +6,10 @@ def sqrt(number: int) -> int:
        number(int): Number to find the floored squared root
     Returns:
        int: Floored Square Root
+
+    Time complexity:
+        O(log n) as we halve teh number of iterations each
+        time we go through the while loop
     """
     if number < 0:
         raise ValueError("Cannot compute square root of negative number")
