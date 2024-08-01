@@ -7,7 +7,7 @@ def sqrt(number: int) -> int:
     Returns:
        int: Floored Square Root
     """
-    if number == 0:
+    if number == 0 or number == 1:
         return number
 
 print ("Pass" if  (3 == sqrt(9)) else "Fail")
