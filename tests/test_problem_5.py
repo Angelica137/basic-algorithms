@@ -29,3 +29,63 @@ def test_trie_node_insert():
     assert (
         node.children["a"] is child
     ), "The returned child should be the same as the one in children"
+
+
+def test_trie_init():
+    trie = Trie()
+    assert isinstance(
+        trie.root, TrieNode
+    ), "Trie root should be an instance of TrieNode"
+    assert len(trie.root.children) == 0, "Trie root should have no children initially"
+    assert trie.root.is_end_of_word == False, "Trie root should not be end of word"
+
+
+def test_trie_insert():
+    trie = Trie()
+    trie.insert("hello")
+
+    # Check if each character is properly inserted
+    node = trie.root
+    for char in "hello":
+        assert char in node.children, f"Character '{char}' should be in children"
+        node = node.children[char]
+
+    assert node.is_end_of_word == True, "Last node should be marked as end of word"
+
+    # Insert another word with common prefix
+    trie.insert("help")
+    node = trie.root
+    for char in "hel":
+        assert char in node.children, f"Character '{char}' should be in children"
+        node = node.children[char]
+    assert "p" in node.children, "Character 'p' should be in children"
+    assert (
+        node.children["p"].is_end_of_word == True
+    ), "Last node of 'help' should be marked as end of word"
+
+
+def test_trie_find():
+    trie = Trie()
+    trie.insert("hello")
+    trie.insert("help")
+
+    # Test finding existing prefixes
+    assert trie.find("he") is not None, "Should find prefix 'he'"
+    assert trie.find("hello") is not None, "Should find word 'hello'"
+    assert trie.find("help") is not None, "Should find word 'help'"
+
+    # Test finding non-existent prefixes
+    assert trie.find("hi") is None, "Should not find prefix 'hi'"
+    assert trie.find("helping") is None, "Should not find word 'helping'"
+
+    # Test that found nodes have correct properties
+    hello_node = trie.find("hello")
+    assert (
+        hello_node.is_end_of_word == True
+    ), "Node for 'hello' should be marked as end of word"
+
+    he_node = trie.find("he")
+    assert (
+        he_node.is_end_of_word == False
+    ), "Node for 'he' should not be marked as end of word"
+    assert "l" in he_node.children, "Node for 'he' should have 'l' as a child"

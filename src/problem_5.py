@@ -1,4 +1,4 @@
-## Represents a single node in the Trie
+# Represents a single node in the Trie
 class TrieNode:
     """
     Represents a single node in a Trie data structure.
@@ -16,6 +16,7 @@ class TrieNode:
         - Initialization: O(1)
         - Node insertion: O(1) average case
     """
+
     def __init__(self):
         """
         Initialise a new TrieNode.
@@ -23,11 +24,11 @@ class TrieNode:
         Creates an empty dictionary for child nodes and sets the
         end-of-word flag to False.
         """
-        ## Initialize this node in the Trie
+        # Initialize this node in the Trie
         self.children = {}
         self.is_end_of_word = False
 
-    def insert(self, char: str) -> 'TrieNode':
+    def insert(self, char: str) -> "TrieNode":
         """
         Adds a child node to this TrieNode.
 
@@ -40,22 +41,63 @@ class TrieNode:
         Returns:
             TrieNode: The child node corresponding to the inserted character.
         """
-        ## Add a child node in this Trie
+        # Add a child node in this Trie
         if char not in self.children:
             self.children[char] = TrieNode()
         return self.children[char]
 
 
-## The Trie itself containing the root node and insert/find functions
+# The Trie itself containing the root node and insert/find functions
 class Trie:
-    def __init__(self):
-        ## Initialize this Trie (add a root node)
-        pass
+    """
+    Implements a Trie data structure.
 
-    def insert(self, word):
-        ## Add a word to the Trie
-        pass
+    This class provides methods to insert words and find prefixes in the Trie.
+
+    Attributes:
+        root (TrieNode): The root node of the Trie.
+    """
+
+    def __init__(self):
+        """
+        Initialize this Trie (add a root node).
+        """
+        # Initialize this Trie (add a root node)
+        self.root = TrieNode()
+
+    def insert(self, word: str) -> None:
+        """
+        Add a word to the Trie.
+
+        Args:
+            word (str): The word to be inserted into the Trie.
+
+        Time complexity: O(n), where n is the length of the word.
+        Space complexity: O(n) in the worst case, if all characters are new.
+        """
+        # Add a word to the Trie
+        node = self.root
+        for char in word:
+            node = node.insert(char)
+        node.is_end_of_word = True
 
     def find(self, prefix):
-        ## Find the Trie node that represents this prefix
-        pass
+        """
+        Find the Trie node that represents this prefix.
+
+        Args:
+            prefix (str): The prefix to search for in the Trie.
+
+        Returns:
+            TrieNode: The node at the end of the prefix, or None if the prefix is not in the Trie.
+
+        Time complexity: O(n), where n is the length of the prefix.
+        """
+        # Find the Trie node that represents this prefix
+        node = self.root
+        for char in prefix:
+            if char in node.children:
+                node = node.children[char]
+            else:
+                return None
+        return node
