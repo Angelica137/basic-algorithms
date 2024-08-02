@@ -46,6 +46,29 @@ class TrieNode:
             self.children[char] = TrieNode()
         return self.children[char]
 
+    def suffixes(self, suffix=""):
+        """
+        Recursive function that collects the suffix for all complete words below this point.
+
+        Args:
+            suffix (str): The current suffix being built (default '').
+
+        Returns:
+            list: A list of all suffixes of complete words starting from this node.
+
+        Time complexity: O(n), where n is the total number of characters in all suffixes.
+        Space complexity: O(n) for storing all suffixes.
+        """
+        results = []
+
+        if self.is_end_of_word:
+            results.append(suffix)
+
+        for char, child_node in self.children.items():
+            results.extend(child_node.suffixes(suffix + char))
+
+        return results
+
 
 # The Trie itself containing the root node and insert/find functions
 class Trie:
@@ -81,7 +104,7 @@ class Trie:
             node = node.insert(char)
         node.is_end_of_word = True
 
-    def find(self, prefix):
+    def find(self, prefix: str) -> TrieNode:
         """
         Find the Trie node that represents this prefix.
 
@@ -91,9 +114,8 @@ class Trie:
         Returns:
             TrieNode: The node at the end of the prefix, or None if the prefix is not in the Trie.
 
-        Time complexity: O(n), where n is the length of the prefix.
+        Time complexity: O(m), where m is the length of the prefix.
         """
-        # Find the Trie node that represents this prefix
         node = self.root
         for char in prefix:
             if char in node.children:
@@ -101,3 +123,44 @@ class Trie:
             else:
                 return None
         return node
+
+
+def main():
+    MyTrie = Trie()
+    wordList = [
+        "ant",
+        "anthology",
+        "antagonist",
+        "antonym",
+        "fun",
+        "function",
+        "factory",
+        "trie",
+        "trigger",
+        "trigonometry",
+        "tripod",
+    ]
+
+    for word in wordList:
+        MyTrie.insert(word)
+
+    while True:
+        prefix = input("Enter a prefix (or press Enter to quit): ")
+        if prefix == "":
+            break
+
+        prefixNode = MyTrie.find(prefix)
+        if prefixNode:
+            suffixes = prefixNode.suffixes()
+            if suffixes:
+                print("Suffixes for '{}':".format(prefix))
+                print("\n".join(suffixes))
+            else:
+                print("'{}' is a complete word with no suffixes.".format(prefix))
+        else:
+            print("'{}' not found".format(prefix))
+        print()
+
+
+if __name__ == "__main__":
+    main()

@@ -89,3 +89,28 @@ def test_trie_find():
         he_node.is_end_of_word == False
     ), "Node for 'he' should not be marked as end of word"
     assert "l" in he_node.children, "Node for 'he' should have 'l' as a child"
+
+
+# test suffixes
+def test_trienode_suffixes():
+    trie = Trie()
+    words = ["hack", "hackerrank", "ham", "hammer", "hammock"]
+    for word in words:
+        trie.insert(word)
+
+    # Test case 1: Suffixes from "hac" node
+    hac_node = trie.find("hac")
+    assert hac_node is not None, "Node 'hac' should exist"
+    assert set(hac_node.suffixes()) == set(
+        ["k", "kerrank"]
+    ), "Incorrect suffixes for 'hac'"
+
+    # Test case 2: Suffixes from "ham" node
+    ham_node = trie.find("ham")
+    assert ham_node is not None, "Node 'ham' should exist"
+    assert set(ham_node.suffixes()) == set(
+        ["", "mer", "mock"]
+    ), "Incorrect suffixes for 'ham'"
+
+    # Test case 3: Suffixes from root node
+    assert set(trie.root.suffixes()) == set(words), "Incorrect suffixes from root"
